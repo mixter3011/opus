@@ -3,9 +3,17 @@ import { db } from "../db";
 import { NewUser, users } from "../db/schema";
 import { eq, is } from "drizzle-orm";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 const authRouter = Router();
+dotenv.config();
 
+const secret = process.env.SECRET_KEY;
+
+if (!secret) {
+  throw new Error("SECRET_KEY is not identified");
+}
 interface SignUpBody {
   name: string;
   email: string;
@@ -64,11 +72,45 @@ authRouter.post("/login", async (req: Request<{}, {}, LoginBody>, res) => {
       if (!isMatch) {
         res.status(400).json({ msg: "Incorrect password!" });
         return;
-      }  
-      res.json(existingUser);
+      }
+      
+      const token = jwt.sign({id: existingUser.id}, secret!,)
+
+      res.json({token, ...existingUser});
     } catch (e) {
       res.status(500).json({ error: e });
     }
+});
+
+authRouter.post("/tokenIsvalid", async (req, res) => {
+  try {
+    const token = req.header("user-auth-token");
+
+    if (!token) {
+      res.json(false);
+      return;
+    }
+
+    const verified = jwt.verify(token, secret);
+
+    if (!verified) {
+      res.json(false);
+      return;
+    }
+
+    const verifiedToken = verified as { id: string };
+
+    const [user] = await db.select().from(users).where(eq(users.id, verifiedToken.id));
+
+    if (!user) {
+      res.json(false)
+      return;
+    }
+
+    res.json(true);
+  } catch (e) {
+    res.status(500).json(false);  
+  }
 });
 
 authRouter.get("/", (req, res) => {
