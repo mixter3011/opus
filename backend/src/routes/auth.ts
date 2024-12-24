@@ -6,6 +6,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { auth, AuthRequest } from "../middleware/auth";
+import { error } from "console";
 
 const authRouter = Router();
 dotenv.config();
@@ -65,13 +66,13 @@ authRouter.post("/login", async (req: Request<{}, {}, LoginBody>, res) => {
         .where(eq(users.email, email));
   
       if (!existingUser) {
-        res.status(400).json({ msg: "User with this email doesn't exist!" });
+        res.status(400).json({ error: "User with this email doesn't exist!" });
         return;
       }
   
       const isMatch = await bcryptjs.compare(password, existingUser.password);
       if (!isMatch) {
-        res.status(400).json({ msg: "Incorrect password!" });
+        res.status(400).json({ error: "Incorrect password!" });
         return;
       }
       
