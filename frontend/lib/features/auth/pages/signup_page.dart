@@ -31,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
   void signup() {
     if (formKey.currentState!.validate()) {
       if (formKey.currentState!.validate()) {
-        context.read<AuthCubit>().signup(
+        context.read<AuthCubit>().signUp(
               name: nameController.text.trim(),
               email: emailController.text.trim(),
               password: passwordController.text.trim(),
@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                 content: Text(state.error),
               ),
             );
-          } else if (state is AuthSignup) {
+          } else if (state is AuthSignUp) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("Account created ! Login NOW!"),
