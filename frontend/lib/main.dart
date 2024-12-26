@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/features/auth/cubit/auth_cubit.dart';
-import 'package:frontend/features/auth/pages/home_page.dart';
+import 'package:frontend/features/home/pages/home_page.dart';
 // import 'package:frontend/features/auth/pages/login_page.dart';
 import 'package:frontend/features/auth/pages/signup_page.dart';
 
