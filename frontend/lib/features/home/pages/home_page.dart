@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, AddNewTask.route());
+              Navigator.push(context, AddNewTaskPage.route());
             },
             icon: const Icon(
               CupertinoIcons.add,
