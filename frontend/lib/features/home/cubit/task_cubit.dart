@@ -57,7 +57,6 @@ class TasksCubit extends Cubit<TasksState> {
         token: token, tasks: unsyncedTasks);
 
     if (isSynced) {
-      print("synced done");
       for (final task in unsyncedTasks) {
         taskLocalRepository.updateRowValue(task.id, 1);
       }

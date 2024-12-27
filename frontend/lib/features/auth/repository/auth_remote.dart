@@ -81,7 +81,7 @@ class AuthRemoteRepository {
         ),
         headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': token,
+          'user-auth-token': token,
         },
       );
 
@@ -95,7 +95,7 @@ class AuthRemoteRepository {
         ),
         headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': token,
+          'user-auth-token': token,
         },
       );
 
@@ -105,7 +105,6 @@ class AuthRemoteRepository {
       return UserModel.fromJson(userResponse.body);
     } catch (e) {
       final user = await authLocalRepository.getUser();
-      print(e);
       return user;
     }
   }
